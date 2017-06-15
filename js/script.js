@@ -1,60 +1,79 @@
-// event listener to respond to "Show another quote" button clicks
-// when user clicks anywhere on the button, the "printQuote" function is called
+var usedQuotes=[];
 
-
-var quotes = [
-    quote1 = {
-        quote: "quote1",
-        source: "the source",
-        citation: "from",
-        year: 1934
-    },
-    quote2 = {
-        quote: "quote2",
-        source: "the source2",
-        citation: "from me",
-        year: 1934
-    },
-    quote3 = {
-        quote: "quote3",
-        source: "the source3"
-    }
-];
-var randomNum;
-var selectedQuote;
-var randomQuote;
-var printHTML = '';
 //get a random number between 2 numbers
 function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min;
 }
+
 //get random quote
 function getRandomQuote(){
     //get a random num using the getRandomInit function between 0 and the length of the array
-    randomNum = getRandomInt(0, quotes.length);
+    var randomNum = getRandomInt(0, quotes.length);
     //choose a random quote and return
-    selectedQuote = quotes[randomNum];
-    return selectedQuote;
+    var randomQuote = quotes[randomNum];
+
+    //push the random quote into the used quote array
+    var usedQuote = usedQuotes.push(randomQuote);
+
+    // now remove that value from the original array
+    quotes.splice(randomNum, 1);
+
+    //when the original array has no more quotes let it equal to the used quotes
+    //so that we can print quotes again and set the used quotes to an empty array
+    if(quotes.length === 0){
+        quotes = usedQuotes;
+        usedQuotes = [];
+    }
+    //print out the number of the quote to check for repitition
+    console.log(usedQuote);
+
+    //return the randomQuote so we can use it when we call the function
+    return randomQuote;
 }
+
+// auto change the quote every minute
+function autoQuote(){
+    var intervalID = window.setInterval(printQuote, 30000);
+}
+
+//change bg color of body
+function changeColor(){
+    //make the colors equal to a random number using function above
+    var red = getRandomInt(0, 256)
+    var green = getRandomInt(0, 256)
+    var blue = getRandomInt(0, 256)
+    var bgColor = 'rgb(' + red + ',' + green + ',' + blue + ')';
+
+    //make the body equal to the background color
+    document.body.style.backgroundColor = bgColor;
+}
+
+//printQuote calls the getRandomQuote function and stores the returned quote object in a variable
 function printQuote(){
-    //printQuote calls the getRandomQuote function and stores the returned quote object in a variable
-    randomQuote = getRandomQuote();
-    printHTML = '<p class="quote">' + selectedQuote.quote + '</p>';
+    var selectedQuote = getRandomQuote();
+
+    //call the change color function so bgcolor changes each time
+    changeColor();
+
+    //print the quote
+    var printHTML = '<p class="quote">' + selectedQuote.quote + '</p>';
     printHTML += '<p class="source">' + selectedQuote.source;
+
+        //if the quote has citation or year then print that too
         if(selectedQuote.citation){
             printHTML += '<span class="citation">' + selectedQuote.citation + '</span>';
         }
         if(selectedQuote.year){
             printHTML += '<span class="year">' + selectedQuote.year + '</span>';
         }
+
+    printHTML += '<span class="tag">' + selectedQuote.tag + '</span>';
     printHTML += '</p>';
+
+    //change the innerHTML of quote-box to show the new quote
     document.getElementById('quote-box').innerHTML = printHTML;
-    //console.log(printHTML)
-    //printQuote constructs a string containing the different properties of the quote object using the following HTML template:
-    //printQuote doesn't add a for a missing citation or a if the year property is missing
-    //printQuote displays the final HTML string to the page. You can use this JS snippet to accomplish that: document.getElementById('quote-box').innerHTML
 }
 
 document.getElementById('loadQuote').addEventListener("click", printQuote, false);
