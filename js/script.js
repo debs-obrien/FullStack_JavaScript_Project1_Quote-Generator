@@ -1,16 +1,14 @@
 var usedQuotes=[];
 
 //get a random number between 2 numbers
-function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min;
+function getRandomInt(num) {
+    return Math.floor(Math.random() * (num));
 }
 
 //get random quote
 function getRandomQuote(){
     //get a random num using the getRandomInit function between 0 and the length of the array
-    var randomNum = getRandomInt(0, quotes.length);
+    var randomNum = getRandomInt(quotes.length);
     //choose a random quote and return
     var randomQuote = quotes[randomNum];
 
@@ -41,9 +39,9 @@ function autoQuote(){
 //change bg color of body
 function changeColor(){
     //make the colors equal to a random number using function above
-    var red = getRandomInt(0, 256)
-    var green = getRandomInt(0, 256)
-    var blue = getRandomInt(0, 256)
+    var red = getRandomInt(256);
+    var green = getRandomInt(256);
+    var blue = getRandomInt(256);
     var bgColor = 'rgb(' + red + ',' + green + ',' + blue + ')';
 
     //make the body equal to the background color
