@@ -15,6 +15,9 @@ function getRandomQuote(){
     //push the random quote into the used quote array
     var usedQuote = usedQuotes.push(randomQuote);
 
+    //print out the quote to check for repetition
+    console.log(randomQuote.quote);
+
     // now remove that value from the original array
     quotes.splice(randomNum, 1);
 
@@ -24,8 +27,6 @@ function getRandomQuote(){
         quotes = usedQuotes;
         usedQuotes = [];
     }
-    //print out the number of the quote to check for repitition
-    console.log(usedQuote);
 
     //return the randomQuote so we can use it when we call the function
     return randomQuote;
