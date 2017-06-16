@@ -75,3 +75,4 @@ function printQuote(){
 }
 
 document.getElementById('loadQuote').addEventListener("click", printQuote, false);
+autoQuote();
